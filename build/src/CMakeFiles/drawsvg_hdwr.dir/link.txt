@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libdrawsvghdwr_osx.a  CMakeFiles/drawsvg_hdwr.dir/hardware/hardware_renderer.cpp.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libdrawsvghdwr_osx.a
