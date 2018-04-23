@@ -238,14 +238,19 @@ void HardwareRenderer::draw_group( Group& group ) {
 }
 
 
-// Rasterization //
-
+// Rasterization /
+// use glBegin(), glEnd()
+// https://en.wikibooks.org/wiki/OpenGL_Programming/GLStart/Tut3
 
 void HardwareRenderer::rasterize_point(float x, float y, Color color) {
   
   // Task 1: 
   // Implement point rasterization
-
+  glPointSize(10.0f);
+  glBegin(GL_POINT);
+  glColor4f(color.r, color.g, color.b, color.a);
+  glVertex2d(x, y); // Specifies a vertex
+  glEnd();
 }
 
 void HardwareRenderer::rasterize_line(float x0, float y0,
@@ -254,7 +259,12 @@ void HardwareRenderer::rasterize_line(float x0, float y0,
 
   // Task 1: 
   // Implement line rasterization
-
+  glLineWidth(10.0);
+  glBegin(GL_LINES);
+  glColor4f(color.r, color.g, color.b, color.a);
+  glVertex2d(x0, y0);
+  glVertex2d(x1, y1);
+  glEnd();
 }
 
 void HardwareRenderer::rasterize_triangle(float x0, float y0,
@@ -263,7 +273,12 @@ void HardwareRenderer::rasterize_triangle(float x0, float y0,
                                           Color color) {
   // Task 1: 
   // Implement triangle rasterization
-
+  glBegin(GL_TRIANGLES);
+  glColor4f(color.r, color.g, color.b, color.a);
+  glVertex2d(x0, y0);
+  glVertex2d(x1, y1);
+  glVertex2d(x2, y2);
+  glEnd();
 }
 
 void HardwareRenderer::rasterize_image(float x0, float y0,
