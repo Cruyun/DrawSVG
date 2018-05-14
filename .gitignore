@@ -39,3 +39,4 @@ lib/
 include/
 .idea/
 cmake-build-debug/
+.vscode

@@ -241,9 +241,92 @@ void SoftwareRendererImp::rasterize_point( float x, float y, Color color ) {
 void SoftwareRendererImp::rasterize_line( float x0, float y0,
                                           float x1, float y1,
                                           Color color) {
-
   // Task 2: 
   // Implement line rasterization
+  if (x1 < x0) {
+    std:swap(x0, x1);
+    std::swap(y0, y1);
+  }
+  int dy = y1 - y0;
+  int dx = x1 - x0;
+  if (dx == 0) { // 平行于 y 轴的直线
+    if (y0 > y1) {
+      std::swap(y0, y1);
+    }
+    for (int i = y0; i <= y1; i++) {
+      rasterize_point(x0, i, color);
+    }
+    return;
+  }
+
+  if (dy == 0) { // 平行于 x 轴的直线
+    if (x0 > x1) {
+      std::swap(x0, x1);
+    }
+    for (int i = x0; i <= x1; i++) {
+      rasterize_point(i, y0, color);
+    }
+    return;
+  }
+
+  double k = (y1 - y0) / (x1 - x0); // 直线斜率
+  if (k > 0) {
+    if (k < 1) {
+      int e = -dx;
+      int x = x0;
+      int y = y0;
+      while (x <= x1) {
+        rasterize_point(x, y, color);
+        e = e + (dy * 2);
+        if (e >= 0) {
+          y++;
+          e = e - (dx * 2);
+        }
+        x++;
+      }
+    } else { // 斜率大于1时
+      int e = -dy;
+      int x = x0;
+      int y = y0;
+      while(y <= y1) {
+        rasterize_point(x, y, color);
+        e = e + (dx * 2);
+        if (e >= 0) {
+          x++;
+          e = e - (dy * 2);
+        }
+        y++;
+      }
+    }
+  } else {
+    if (abs(k) < 1) {
+      int x = x1;
+      int y = y1;
+      int e = -dx;
+      while (x >= x0) {
+        rasterize_point(x, y, color);
+        e = e - (dy * 2);
+        if (e >= 0) {
+          y++;
+          e = e - (dx * 2);
+        }
+        x--;
+      }
+    } else { // 注意此时 dx > 0, dy < 0
+      int x = x0;
+      int y = y0;
+      int e = -dy;
+      while (y >= y1) {
+        rasterize_point(x, y, color);
+        e = e + (dx * 2);
+        if (e >= 0) {
+          x++;
+          e = e + (dy * 2);
+        }
+        y--;
+      }
+    }
+  }
 }
 
 void SoftwareRendererImp::rasterize_triangle( float x0, float y0,
